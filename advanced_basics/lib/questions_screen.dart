@@ -17,27 +17,31 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
     final currentQuestion = questions[0];
     return SizedBox(
       width: double.infinity,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            currentQuestion.text,
-            style: const TextStyle(
-              fontSize: 24,
-              color: Color.fromARGB(255, 255, 255, 255),
-            ),
-          ),
-          const SizedBox(height: 30),
-          ...currentQuestion.answers.map((item) {
-            return AnswerButton(answerText: item, onTab: () {});
-          }),
+      child: Container(
+          margin: const EdgeInsets.all(40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                currentQuestion.text,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 30),
+              ...currentQuestion.answers.map((item) {
+                return AnswerButton(answerText: item, onTab: () {});
+              }),
 
-          // AnswerButton(answerText: currentQuestion.answers[0], onTab: () {}),
-          // AnswerButton(answerText: "Answer 2", onTab: () {}),
-          // AnswerButton(answerText: "Answer 3", onTab: () {}),
-          // AnswerButton(answerText: "Answer 4", onTab: () {}),
-        ],
-      ),
+              // AnswerButton(answerText: currentQuestion.answers[0], onTab: () {}),
+              // AnswerButton(answerText: "Answer 2", onTab: () {}),
+              // AnswerButton(answerText: "Answer 3", onTab: () {}),
+              // AnswerButton(answerText: "Answer 4", onTab: () {}),
+            ],
+          )),
     );
   }
 }
