@@ -1,5 +1,5 @@
 import 'package:advanced_basics/data/questions.dart';
-import 'package:advanced_basics/models/quiz_question.dart';
+import 'package:advanced_basics/questions_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -24,7 +24,11 @@ class ResultsScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(context) {
+  Widget build(BuildContext context) {
+    final summaryData = getSummaryData();
+    final numTotalQuestions = questions.length;
+    final numCorrectQuestions = 0;
+
     return SizedBox(
       width: double.infinity,
       child: Container(
@@ -39,12 +43,7 @@ class ResultsScreen extends StatelessWidget {
                       color: const Color.fromARGB(255, 201, 233, 252)),
                   textAlign: TextAlign.center),
               const SizedBox(height: 30),
-              Text("당신의 점수는 3점입니다.",
-                  style: GoogleFonts.lato(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: const Color.fromARGB(255, 201, 233, 252)),
-                  textAlign: TextAlign.center),
+              QuestionsSummary(getSummaryData()),
               const SizedBox(height: 30),
               TextButton(onPressed: () {}, child: const Text("다시 시작")),
             ],
