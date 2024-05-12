@@ -42,6 +42,7 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+        isScrollControlled: true, // 화면 전체를 사용하도록 설정
         context: context,
         builder: (ctx) {
           return NewExpense(onAddExpense: _addExpense);
