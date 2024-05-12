@@ -38,7 +38,25 @@ class _NewExpenseState extends State<NewExpense> {
 
     if (_titleController.text.trim().isEmpty ||
         amountIsInvalid ||
-        _selectedDate == null) {}
+        _selectedDate == null) {
+      showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: const Text('Invalid input'),
+            content: const Text('Please enter valid data'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: const Text('Okay'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
