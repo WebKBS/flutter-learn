@@ -56,13 +56,43 @@ class _ExpensesState extends State<Expenses> {
   }
 
   void _removeExpense(Expense expense) {
+    final expenseIndex =
+        _registeredExpenses.indexOf(expense); // 해당 expense의 index를 찾음
+
     setState(() {
       _registeredExpenses.remove(expense);
     });
+
+    ScaffoldMessenger.of(context).hideCurrentSnackBar(); // 이전 SnackBar를 숨김
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('삭제되었습니다.'),
+        duration: const Duration(seconds: 5),
+        action: SnackBarAction(
+          label: '되돌리기',
+          onPressed: () {
+            setState(() {
+              _registeredExpenses.insert(
+                  expenseIndex, expense); // 삭제된 expense를 index에 추가
+            });
+          },
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget mainContent = const Center(
+      child: Text('No expenses added yet!', style: TextStyle(fontSize: 20)),
+    );
+
+    if (_registeredExpenses.isNotEmpty) {
+      mainContent = ExpensesList(
+          expenses: _registeredExpenses, onRemoveExpense: _removeExpense);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Expenses'),
@@ -75,10 +105,7 @@ class _ExpensesState extends State<Expenses> {
       ),
       body: Column(children: [
         const Text('The expenses list:'),
-        Expanded(
-          child: ExpensesList(
-              expenses: _registeredExpenses, onRemoveExpense: _removeExpense),
-        )
+        Expanded(child: mainContent)
       ]),
     );
   }
