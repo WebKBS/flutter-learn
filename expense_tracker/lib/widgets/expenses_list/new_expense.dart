@@ -58,12 +58,13 @@ class _NewExpenseState extends State<NewExpense> {
           );
         },
       );
+      return; // 함수 종료
     }
 
     widget.onAddExpense(
       Expense(
         title: _titleController.text,
-        amount: enteredAmount!,
+        amount: enteredAmount,
         date: _selectedDate!,
         category: _selectedCategory!,
       ),
@@ -131,9 +132,9 @@ class _NewExpenseState extends State<NewExpense> {
                   value: _selectedCategory,
                   items: Category.values
                       .map((category) => DropdownMenuItem(
-                            value: category,
-                            child: Text(category.name.toUpperCase()),
-                          ))
+                    value: category,
+                    child: Text(category.name.toUpperCase()),
+                  ))
                       .toList(),
                   onChanged: (value) {
                     setState(() {
