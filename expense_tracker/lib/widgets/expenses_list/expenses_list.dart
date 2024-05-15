@@ -20,12 +20,8 @@ class ExpensesList extends StatelessWidget {
               onRemoveExpense(expenses[index]);
             },
             background: Container(
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.only(right: 20),
-              margin: const EdgeInsets.symmetric(
-                vertical: 4,
-                horizontal: 15,
-              ),
+              color: Theme.of(context).colorScheme.error.withOpacity(0.8),
+              margin: Theme.of(context).cardTheme.margin,
               child: const Icon(
                 Icons.delete,
                 color: Colors.white,

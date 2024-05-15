@@ -20,8 +20,8 @@ void main() {
           backgroundColor: kColorScheme.primaryContainer,
         ),
       ),
-      textTheme:  ThemeData().textTheme.copyWith(
-       titleLarge: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      textTheme: ThemeData().textTheme.copyWith(
+       titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: kColorScheme.onSecondaryContainer),
       )
     ),
     home: const Expenses(),
