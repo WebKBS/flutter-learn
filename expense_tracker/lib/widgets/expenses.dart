@@ -43,6 +43,7 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+        useSafeArea: true, // SafeArea를 사용하면 화면의 상단에 여백이 생김
         isScrollControlled: true, // 화면 전체를 사용하도록 설정
         context: context,
         builder: (ctx) {
