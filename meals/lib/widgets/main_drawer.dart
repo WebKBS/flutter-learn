@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class MainDrawer extends StatelessWidget {
-  const MainDrawer({super.key});
+  const MainDrawer({super.key, required this.onSelectScreen});
+
+  final void Function(String indentifier) onSelectScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -41,29 +43,33 @@ class MainDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-              leading: const Icon(
-                Icons.restaurant,
-                size: 24,
-              ),
-              title: Text(
-                '레시피',
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize: 18,
-                    ),
-              )),
+            leading: const Icon(
+              Icons.restaurant,
+              size: 24,
+            ),
+            title: Text(
+              '레시피',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 18,
+                  ),
+            ),
+            onTap: () => onSelectScreen('meals'),
+          ),
           ListTile(
-              leading: const Icon(
-                Icons.settings,
-                size: 24,
-              ),
-              title: Text(
-                '설정',
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize: 18,
-                    ),
-              )),
+            leading: const Icon(
+              Icons.settings,
+              size: 24,
+            ),
+            title: Text(
+              '설정',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 18,
+                  ),
+            ),
+            onTap: () => onSelectScreen('filters'),
+          ),
         ],
       ),
     );
