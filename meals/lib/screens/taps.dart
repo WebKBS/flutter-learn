@@ -10,11 +10,11 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  int _SelectedPageIndex = 0;
+  int _selectedPageIndex = 0;
 
   void _selectPage(int index) {
     setState(() {
-      _SelectedPageIndex = index;
+      _selectedPageIndex = index;
     });
   }
 
@@ -24,7 +24,7 @@ class _TabsScreenState extends State<TabsScreen> {
 
     var activePageTitle = "카테고리";
 
-    if (_SelectedPageIndex == 1) {
+    if (_selectedPageIndex == 1) {
       activePage = const MealsScreen(meals: []);
       activePageTitle = "즐겨찾기";
     }
@@ -38,7 +38,7 @@ class _TabsScreenState extends State<TabsScreen> {
         onTap: (int index) {
           _selectPage(index);
         },
-        currentIndex: _SelectedPageIndex,
+        currentIndex: _selectedPageIndex,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.set_meal),
