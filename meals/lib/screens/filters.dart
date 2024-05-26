@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class FiltersScreen extends ConsumerWidget {
   const FiltersScreen({super.key});
 
-  @override
   Widget _buildSwitchListTile(BuildContext context, String title,
       String description, bool currentValue, void Function(bool)? updateValue) {
     return SwitchListTile(
