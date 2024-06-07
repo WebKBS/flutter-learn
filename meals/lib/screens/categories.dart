@@ -28,11 +28,14 @@ class _CategoriesScreenState extends State<CategoriesScreen>
       // vsync는 AnimationController가 화면에 표시될 때 애니메이션을 동기화하는데 사용된다.
       vsync: this,
       // 애니메이션 지속 시간을 설정한다.
-      duration: const Duration(seconds: 3),
+      duration: const Duration(milliseconds: 300),
 
       lowerBound: 0, // 애니메이션의 최소값을 설정한다. 기본값은 0이다.
       upperBound: 1, // 애니메이션의 최대값을 설정한다. 기본값은 1이다.
     );
+
+    // 애니메이션을 시작한다.
+    _animationController.forward();
   }
 
   @override
@@ -61,21 +64,28 @@ class _CategoriesScreenState extends State<CategoriesScreen>
 
   @override
   Widget build(BuildContext context) {
-    return GridView(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 3 / 2,
-        crossAxisSpacing: 20,
-        mainAxisSpacing: 20,
-      ),
-      children: [
-        for (final category in availableCategories)
-          CategoryGridItem(
-              category: category,
-              onSelectCategory: () {
-                _selectCategory(context, category);
-              }),
-      ],
-    );
+    return AnimatedBuilder(
+        animation: _animationController,
+        child: GridView(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 3 / 2,
+            crossAxisSpacing: 20,
+            mainAxisSpacing: 20,
+          ),
+          children: [
+            for (final category in availableCategories)
+              CategoryGridItem(
+                  category: category,
+                  onSelectCategory: () {
+                    _selectCategory(context, category);
+                  }),
+          ],
+        ),
+        builder: (context, child) => Padding(
+              padding:
+                  EdgeInsets.only(top: 100 - _animationController.value * 100),
+              child: child,
+            ));
   }
 }
