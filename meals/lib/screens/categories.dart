@@ -5,13 +5,45 @@ import 'package:meals/models/meal.dart';
 import 'package:meals/screens/meals.dart';
 import 'package:meals/widgets/category_grid_item.dart';
 
-class CategoriesScreen extends StatelessWidget {
+class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key, required this.availableMeals});
 
   final List<Meal> availableMeals;
 
+  @override
+  State<CategoriesScreen> createState() => _CategoriesScreenState();
+}
+
+class _CategoriesScreenState extends State<CategoriesScreen>
+    with SingleTickerProviderStateMixin {
+  // late는 변수를 나중에 초기화할 때 사용한다.
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // AnimationController를 생성하고 초기화한다.
+    _animationController = AnimationController(
+      // vsync는 AnimationController가 화면에 표시될 때 애니메이션을 동기화하는데 사용된다.
+      vsync: this,
+      // 애니메이션 지속 시간을 설정한다.
+      duration: const Duration(seconds: 3),
+
+      lowerBound: 0, // 애니메이션의 최소값을 설정한다. 기본값은 0이다.
+      upperBound: 1, // 애니메이션의 최대값을 설정한다. 기본값은 1이다.
+    );
+  }
+
+  @override
+  void dispose() {
+    // 애니메이션 컨트롤러를 해제한다.
+    _animationController.dispose();
+    super.dispose();
+  }
+
   void _selectCategory(BuildContext context, Category category) {
-    final filteredMeals = availableMeals
+    final filteredMeals = widget.availableMeals
         .where((meal) => meal.categories.contains(category.id))
         .toList();
 
