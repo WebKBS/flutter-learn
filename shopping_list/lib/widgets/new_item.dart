@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 // HTTP 요청을 위한 패키지 추가 as를 사용한것은 별칭을 지정한 것이다.
 import "package:http/http.dart" as http;
 import 'package:shopping_list/data/categories.dart';
 import 'package:shopping_list/models/category.dart';
+import 'package:shopping_list/models/grocery_item.dart';
 
 class NewItem extends StatefulWidget {
   const NewItem({super.key});
@@ -26,7 +28,7 @@ class _NewItemState extends State<NewItem> {
 
       final url = Uri.https(dotenv.env['DATABASE_URL']!, 'shopping_list.json');
 
-      await http.post(
+      final response = await http.post(
         url,
         headers: {
           'Content-Type': 'application/json',
@@ -40,10 +42,16 @@ class _NewItemState extends State<NewItem> {
         ),
       );
 
-      if (mounted) {
-        // 데이터 추가 후 닫기
-        Navigator.of(context).pop();
-      }
+      final Map<String, dynamic> responseData = json.decode(response.body);
+
+      if (!mounted) return;
+
+      // 데이터 추가 후 닫기
+      Navigator.of(context).pop(GroceryItem(
+          id: responseData['name'],
+          name: _enteredName,
+          quantity: _enteredQuantity,
+          category: _selectedCategory));
     }
   }
 
