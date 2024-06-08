@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 class NewItem extends StatefulWidget {
   const NewItem({super.key});
 
-
-
   @override
   State<NewItem> createState() => _NewItemState();
 }
@@ -16,10 +14,27 @@ class _NewItemState extends State<NewItem> {
       appBar: AppBar(
         title: const Text('Add New Item'),
       ),
-      body: const Padding(
-        padding:  EdgeInsets.all(12),
-        child: Text('Add form here'),
-      )
+      body:  Padding(
+        padding: const EdgeInsets.all(12),
+        child: Form(
+          child: Column(
+          children: [
+            TextFormField(
+              maxLength: 50,
+              decoration: const InputDecoration(
+                label: Text('Name'),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a name';
+                }
+                return null;
+              },
+            ),
+          ],
+          ),
+        ),
+      ),
     );
   }
 }
