@@ -17,8 +17,8 @@ class GroceryList extends StatefulWidget {
 
 class _GroceryListState extends State<GroceryList> {
   List<GroceryItem> _groceryItems = [];
-
   var _isLoading = true;
+  String? _errorMessage;
 
   @override
   void initState() {
@@ -30,6 +30,15 @@ class _GroceryListState extends State<GroceryList> {
     final url = Uri.https(dotenv.env['DATABASE_URL']!, 'shopping_list.json');
 
     final response = await http.get(url);
+
+    if (response.statusCode >= 400) {
+      setState(() {
+        _errorMessage = 'Failed to load data: ${response.body}';
+      });
+
+      return;
+    }
+
     final Map<String, dynamic> listData = jsonDecode(response.body);
     final List<GroceryItem> loadedItems = [];
 
@@ -113,6 +122,12 @@ class _GroceryListState extends State<GroceryList> {
                 ),
               ));
         },
+      );
+    }
+
+    if (_errorMessage != null) {
+      content = Center(
+        child: Text(_errorMessage!),
       );
     }
 
