@@ -21,10 +21,15 @@ class _NewItemState extends State<NewItem> {
   var _enteredName = '';
   var _enteredQuantity = 1;
   var _selectedCategory = categories[Categories.vegetables]!;
+  var _isSending = false;
 
   void _saveItem() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState?.save();
+
+      setState(() {
+        _isSending = true;
+      });
 
       final url = Uri.https(dotenv.env['DATABASE_URL']!, 'shopping_list.json');
 
@@ -144,15 +149,25 @@ class _NewItemState extends State<NewItem> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    onPressed: () {
-                      // 폼 리셋
-                      _formKey.currentState?.reset();
-                    },
+                    onPressed: _isSending
+                        ? null
+                        : () {
+                            // 폼 리셋
+                            _formKey.currentState?.reset();
+                          },
                     child: const Text('Reset'),
                   ),
                   ElevatedButton(
-                    onPressed: _saveItem,
-                    child: const Text('Add Item'),
+                    onPressed: _isSending ? null : _saveItem,
+                    child: _isSending
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(Colors.white),
+                            ),
+                          )
+                        : const Text('Save'),
                   ),
                 ],
               )
