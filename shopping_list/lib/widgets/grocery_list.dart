@@ -75,10 +75,21 @@ class _GroceryListState extends State<GroceryList> {
     });
   }
 
-  void _removeItem(String id) {
+  void _removeItem(String id) async {
     setState(() {
       _groceryItems.removeWhere((item) => item.id == id);
     });
+
+    final url =
+        Uri.https(dotenv.env['DATABASE_URL']!, 'shopping_list/$id.json');
+
+    final response = await http.delete(url);
+
+    if (response.statusCode >= 400) {
+      setState(() {
+        _errorMessage = 'Failed to delete item: ${response.body}';
+      });
+    }
   }
 
   @override
