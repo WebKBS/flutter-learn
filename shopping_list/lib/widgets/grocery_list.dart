@@ -29,36 +29,42 @@ class _GroceryListState extends State<GroceryList> {
   void _loadItems() async {
     final url = Uri.https(dotenv.env['DATABASE_URL']!, 'shopping_list.json');
 
-    final response = await http.get(url);
+    try {
+      final response = await http.get(url);
+      if (response.statusCode >= 400) {
+        setState(() {
+          _errorMessage = 'Failed to load data: ${response.body}';
+        });
 
-    if (response.statusCode >= 400) {
+        return;
+      }
+
+      final Map<String, dynamic> listData = jsonDecode(response.body);
+      final List<GroceryItem> loadedItems = [];
+
+      for (final item in listData.entries) {
+        final category = categories.entries
+            .firstWhere(
+                (catItem) => catItem.value.title == item.value['category'])
+            .value;
+        loadedItems.add(GroceryItem(
+          id: item.key,
+          name: item.value['name'],
+          quantity: item.value['quantity'],
+          category: category,
+        ));
+      }
+
       setState(() {
-        _errorMessage = 'Failed to load data: ${response.body}';
+        _groceryItems = loadedItems;
+        _isLoading = false;
       });
-
+    } catch (error) {
+      setState(() {
+        _errorMessage = 'Failed to load data: $error';
+      });
       return;
     }
-
-    final Map<String, dynamic> listData = jsonDecode(response.body);
-    final List<GroceryItem> loadedItems = [];
-
-    for (final item in listData.entries) {
-      final category = categories.entries
-          .firstWhere(
-              (catItem) => catItem.value.title == item.value['category'])
-          .value;
-      loadedItems.add(GroceryItem(
-        id: item.key,
-        name: item.value['name'],
-        quantity: item.value['quantity'],
-        category: category,
-      ));
-    }
-
-    setState(() {
-      _groceryItems = loadedItems;
-      _isLoading = false;
-    });
   }
 
   void _addItem() async {
@@ -143,15 +149,16 @@ class _GroceryListState extends State<GroceryList> {
     }
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Grocery List'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () => _addItem(),
-            )
-          ],
-        ),
-        body: content);
+      appBar: AppBar(
+        title: const Text('Grocery List'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () => _addItem(),
+          )
+        ],
+      ),
+      body: content,
+    );
   }
 }
