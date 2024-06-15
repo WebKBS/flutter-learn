@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:native_device/screens/places.dart';
 
 final colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.dark,
@@ -39,17 +40,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Great Places',
       theme: theme,
-      home: const Scaffold(
-        body: Center(
-          child: Text(
-            'Great Places',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      )
+      home: const PlacesScreen(),
     );
   }
 }
