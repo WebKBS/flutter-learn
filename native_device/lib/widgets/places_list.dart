@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:native_device/place/place.dart';
+import 'package:native_device/models/place.dart';
 import 'package:native_device/screens/places_detail.dart';
 
 class PlacesList extends StatelessWidget {
@@ -23,10 +23,13 @@ class PlacesList extends StatelessWidget {
     return ListView.builder(
       itemCount: places.length,
       itemBuilder: (context, index) {
-        final place = places[index];
         return ListTile(
+            leading: CircleAvatar(
+              radius: 26,
+              backgroundImage: FileImage(places[index].image),
+            ),
             title: Text(
-              place.title,
+              places[index].title,
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!
@@ -35,7 +38,8 @@ class PlacesList extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => PlacesDetailScreen(place: place),
+                  builder: (context) =>
+                      PlacesDetailScreen(place: places[index]),
                 ),
               );
             });

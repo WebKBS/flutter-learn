@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:native_device/providers/user_places.dart';
 import 'package:native_device/screens/add_place.dart';
-import 'package:native_device/widgets/Places_list.dart';
+import 'package:native_device/widgets/places_list.dart';
 
 class PlacesScreen extends ConsumerWidget {
   const PlacesScreen({super.key});
