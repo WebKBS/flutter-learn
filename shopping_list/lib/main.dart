@@ -33,8 +33,8 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 2초 후에 MainScreen으로 이동
     Future.delayed(const Duration(seconds: 4), () {
+      // 2초 후에 MainScreen으로 이동
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const GroceryList()),
